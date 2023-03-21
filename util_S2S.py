@@ -4,9 +4,6 @@ import scipy.io as sio
 import random
 
 
-
-
-
 def add_gaussian_noise(img, model_path, sigma):
     index = model_path.rfind("/")
     if sigma > 0:
