@@ -1,5 +1,3 @@
-  GNU nano 2.3.1                                                                                                                                               File: requirements.txt                                                                                                                                                                                                                                                                                                      
-
 Package                 Version
 ----------------------- ---------
 absl-py                 1.4.0
