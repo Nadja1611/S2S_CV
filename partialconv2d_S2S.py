@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Mar 15 08:32:56 2023
-
-@author: johan
-"""
 import torch
 import torch.nn.functional as F
 from torch import nn, cuda
