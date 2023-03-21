@@ -125,4 +125,4 @@ def extract_random_patches2(image, image1, image2, patch_size, N):
         patches1[i] = image1[0, row_indices[i]:row_indices[i]+patch_size, col_indices[i]:col_indices[i]+patch_size,:]
         patches2[i] = image2[0, row_indices[i]:row_indices[i]+patch_size, col_indices[i]:col_indices[i]+patch_size,:]    
     return patches, patches1, patches2
-    
+    #end
