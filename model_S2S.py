@@ -18,6 +18,18 @@ import torch.multiprocessing as mp
 import torch.distributed as dist
 from partialconv2d_S2S import PartialConv2d
 
+
+from layer import *
+
+import torch
+import torch.nn as nn
+from torch.nn import init, ReflectionPad2d
+from torch.optim import lr_scheduler
+from utils import *
+from Functions_pytorch import *
+from torch.utils.data import TensorDataset, DataLoader
+from torch.optim import Adam
+
 class EncodeBlock(nn.Module):
     def __init__(self, in_channel, out_channel, flag):
         super(EncodeBlock, self).__init__()
@@ -117,24 +129,7 @@ class self2self(nn.Module):
     
     
     
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Sat Feb 18 12:13:48 2023
 
-@author: nadja
-"""
-
-from layer import *
-
-import torch
-import torch.nn as nn
-from torch.nn import init, ReflectionPad2d
-from torch.optim import lr_scheduler
-from utils import *
-from Functions_pytorch import *
-from torch.utils.data import TensorDataset, DataLoader
-from torch.optim import Adam
 
 
 
