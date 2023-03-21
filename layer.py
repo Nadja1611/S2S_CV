@@ -261,4 +261,3 @@ class SSIM2dLoss(nn.Module):
     def forward(self, input, targer):
         loss = 0
         return loss
-
