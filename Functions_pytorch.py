@@ -66,6 +66,19 @@ def huber(x,mu):
 
 
 
+# #since the adjoint of the l1-norm, the resolvent operator reduces to 
+# # pointwise euclidean projectors onto l2-balls
+# def proj_l1_grad(g, Lambda):
+#     '''
+#     proximity operator of l1
+#     '''
+#     L = Lambda*torch.ones_like(g[:,0])
+#     n = torch.maximum(torch.sqrt(g[:,0]**2+g[:,1]**2),L)
+#     g[:,0] = g[:,0]/n
+#     g[:,1]= g[:,1]/n #g/max(alpa, |g|)
+#     g = Lambda*g
+#     return g
+
 
 #since the adjoint of the l1-norm, the resolvent operator reduces to 
 # pointwise euclidean projectors onto l2-balls
@@ -74,9 +87,10 @@ def proj_l1_grad(g, Lambda):
     proximity operator of l1
     '''
     L = Lambda*torch.ones_like(g[:,0])
-    n = torch.maximum(torch.sqrt(g[:,0]**2+g[:,1]**2),L)
-    g[:,0] = g[:,0]/n
-    g[:,1]= g[:,1]/n #g/max(alpa, |g|)
+    gl = g/(L+0.0000001)
+    n = torch.maximum(torch.sqrt(gl[:,0]**2+gl[:,1]**2),torch.ones_like(L))
+    g[:,0] = gl[:,0]/n
+    g[:,1]= gl[:,1]/n #g/max(alpa, |g|)
     g = Lambda*g
     return g
 
@@ -104,7 +118,7 @@ def norm1(mat):
 def mydot(mat1, mat2):
     return np.dot(mat1.ravel(), mat2.ravel())
 
-mu = 0.0001
+mu = 0.000001
 def Fid1(img1,img2):
    '''
    Computes M1(u) u*(f-((u,f)/|u|)**2)
@@ -138,14 +152,14 @@ def img_dot(img1,img2):
 
 def adjoint_der_Fid1(img1,img2,h):
     '''Computes adjoint of derivative and applies it on h T^2*h + 2*M^T*U*T*h'''
-    div = (img_dot(img1,img2)/huber(img1,0.0001))
-    div2 = img_dot(img1,img2)/huber(img1,0.0001)**2
+    div = (img_dot(img1,img2)/huber(img1,0.000001))
+    div2 = img_dot(img1,img2)/huber(img1,0.000001)**2
     T_f = (img2 -div[:,None,None]*torch.ones_like(img2))
     S_1 = T_f**2*h   
     ip = img_dot(img1,img2)
     '''reshape to column'''
-    Hub2 = huber(img1,0.001)
-    Hub3 = huber(img1,0.0001)
+    Hub2 = huber(img1,0.000001)
+    Hub3 = huber(img1,0.000001)
     M_T = (-img2*Hub2[:,None,None] *torch.ones_like(img2) + torch.sign(img1)*ip[:,None,None])/Hub3[:,None,None]**2
     '''computation of U*T pointwise'''
     factor2 = img1*T_f
@@ -157,14 +171,14 @@ def adjoint_der_Fid1(img1,img2,h):
 def adjoint_der_Fid2(img1,img2,h):
     '''Computes adjoint of derivative'''
    # h= np.reshape(h,(np.shape(img1.ravel())[0],1))
-    div = (img_dot((torch.ones_like(img1)-img1),img2)/huber((torch.ones_like(img1)-img1),0.0001))
-    div2 = img_dot(1-img1,img2)/huber(1-img1,0.0001)**2
+    div = (img_dot((torch.ones_like(img1)-img1),img2)/huber((torch.ones_like(img1)-img1),0.000001))
+    div2 = img_dot(1-img1,img2)/huber(1-img1,0.000001)**2
     T_f = (img2 -div[:,None,None]*torch.ones_like(img2))
     S_1 = -T_f**2*h   
     ip = img_dot(1-img1,img2)
 
-    Hub2 = huber(1-img1,0.001)
-    Hub3 = huber(1-img1,0.0001)
+    Hub2 = huber(1-img1,0.000001)
+    Hub3 = huber(1-img1,0.000001)
     M_T = (img2*Hub2[:,None,None]*torch.ones_like(img2) - torch.sign(1-img1)*ip[:,None,None])/Hub3[:,None,None]**2
     factor2 =(1-img1)*T_f
     S_2 = 2*img_dot(factor2, h)[:,None,None]*M_T
