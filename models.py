@@ -1,13 +1,4 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Sat Feb 18 12:13:48 2023
-
-@author: nadja
-"""
-
 from layer import *
-
 import torch
 import torch.nn as nn
 from torch.nn import init, ReflectionPad2d
