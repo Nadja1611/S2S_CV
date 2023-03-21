@@ -1,14 +1,7 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Mar 15 08:32:05 2023
-
-@author: johan
-"""
 import numpy as np 
 import cv2
 import scipy.io as sio
 import random
-
 
 
 
