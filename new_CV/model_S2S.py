@@ -564,7 +564,7 @@ class Denseg_S2S:
         device = 'cuda:0'
 
         #slice_avg = torch.tensor([1,1,128,128]).to(device)
-        for itr in range(1000):
+        for itr in range(2000):
             p_mtx = np.random.uniform(size=[img.shape[0],img.shape[1],img.shape[2]])
             mask = (p_mtx>p).astype(np.double)*0.7
             img_input = torch.clone(img)
