@@ -17,11 +17,7 @@ from torch.nn.parallel import DistributedDataParallel as DDP
 import torch.multiprocessing as mp
 import torch.distributed as dist
 from partialconv2d_S2S import PartialConv2d
-    
-
-
 from layer import *
-
 import torch
 import torch.nn as nn
 from torch.nn import init, ReflectionPad2d
@@ -606,26 +602,16 @@ class Denseg_S2S:
                     with torch.no_grad():
                         output_test = self.DenoisNet(img_input_tensor_val,mask_val)
                         sum_preds[:,:,:] += output_test.detach().cpu().numpy()[0]
-                      #  loss_val = torch.sum((output_test - y_val)*(output_test-y_val)*(1-mask_val))/torch.sum(1-mask_val) + self.fid*(torch.mean(Fid1( self.x.float(), output_test)+Fid2(self.x.float(),output_test))   )  
                         loss_val = torch.sum(torch.abs(output_test - y_val)*(1-mask_val))/torch.sum(1-mask_val) + self.fid*(torch.mean(Fid1( self.x.float(), output_test)+Fid2(self.x.float(),output_test))   )  
 
                         loss_val_G += loss_val.item()
                 val_loss_list.append(loss_val_G)
                 avg_preds = np.squeeze(sum_preds/np.max(sum_preds))
-                # plt.subplot(1,3,1)
-                # plt.imshow(avg_preds)
-                # plt.subplot(1,3,2)
-                # plt.imshow(img.detach().cpu()[0])
-                # plt.subplot(1,3,3)
-                # plt.plot(val_loss_list)
-                # plt.show()
+
                 output = (torch.tensor(avg_preds)-torch.min(torch.tensor(avg_preds)))/(torch.max(torch.tensor(avg_preds))-torch.min(torch.tensor(avg_preds)))
         
 
             self.f=torch.clone(output.unsqueeze(0).to(device))
-           # f = (f-torch.min(f))/(torch.max(f)-torch.min(f))
-            
 
-          #  self.f=torch.clone(f)
 
     
