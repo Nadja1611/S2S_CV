@@ -36,6 +36,7 @@ parser.add_argument('--experiment', type = str, help = "What hyperparameter are 
 parser.add_argument('--patient', type = int, help = "Which patient index do we use", default = 0)
 parser.add_argument('--dataset', type = str, help = "Which dataset", default = "DSB2018_n20")
 parser.add_argument('--GPU', type = int, help = "Which GPU do you want to use", default = 0)
+parser.add_argument('--fid', type = float, help = "do we add fidelity term?", default = 0.0)
 
 
 
@@ -44,7 +45,7 @@ args = parser.parse_args()
 
 args.output_directory = args.output_directory+"/" + args.dataset + "/patient_"+ str(args.patient).zfill(2) +  args.experiment
 #define directory where you want to have your outputs saved
-name = "/S2S_Method_"+ args.method + "_Lambda_" + str(args.lam) + "_ratio_"+ str(args.ratio) +'_lr_'+str(args.learning_rate)
+name = "/S2S_Method_"+ args.method + "_Lambda_" + str(args.lam) + "_ratio_"+ str(args.ratio) +'_lr_'+str(args.learning_rate) + '_fidelity_denoising_' + str(args.fid)
 path = args.output_directory+  name
 
 
