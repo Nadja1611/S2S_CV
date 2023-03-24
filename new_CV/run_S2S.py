@@ -106,12 +106,17 @@ if args.method == "joint":
     for i in range(n_it):
         mynet_sequential.segmentation_step(mynet.f)        
         
-if args.method == "joint":        
-    np.savez_compressed(path + "/results.npz", denoisings = mynet.f.cpu(), segmentations_joint = mynet.x_tilde[0].cpu(), segmentations_sequential = mynet_sequential.x_tilde[0].cpu(), learning_rate = args.learning_rate, lam = args.lam, energy = mynet.en.cpu(), TV = mynet.tv.cpu(), fid = mynet.fid.cpu())        
 
+if args.method == "joint":    
+    try:  
+        np.savez_compressed(path + "/results.npz", denoisings = mynet.f.cpu(), segmentations_joint = mynet.x_tilde[0].cpu(), segmentations_sequential = mynet_sequential.x_tilde[0].cpu(), learning_rate = args.learning_rate, lam = args.lam, energy = mynet.en.cpu(), TV = mynet.tv.cpu(), fid = mynet.fid.cpu())        
+    except:
+        print("did not work")
 if args.method == "cv":
-    np.savez_compressed(path + "/results.npz",  segmentations_cv = mynet.x_tilde[0].cpu(), learning_rate = args.learning_rate, lam = args.lam, energy = mynet.en.cpu(), TV = mynet.tv.cpu(), fid = mynet.fid.cpu() )        
-     
+    try:
+        np.savez_compressed(path + "/results.npz",  segmentations_cv = mynet.x_tilde[0].cpu(), learning_rate = args.learning_rate, lam = args.lam, energy = mynet.en.cpu(), TV = mynet.tv.cpu(), fid = mynet.fid.cpu() )        
+    except:
+        print("did not work")
  
 
        
