@@ -75,12 +75,12 @@ data = np.load(
 f = torch.tensor(data["X_train"][args.patient:args.patient+1]).to(device)
 gt = data["Y_train"]
 f_denoising = torch.clone(f)
-mynet = Denseg_S2S(learning_rate = args.learning_rate, lam = args.lam)
+mynet = Denseg_S2S(learning_rate = (1-f_norm)*args.learning_rate, lam = args.lam, fid = args.fid)
 mynet.initialize(f)
 f=mynet.normalize(f)
 f_norm = torch.mean(f**2)
 print(f_norm)
-mynet = Denseg_S2S(learning_rate = (1-f_norm)*args.learning_rate, lam = args.lam)
+mynet = Denseg_S2S(learning_rate = (1-f_norm)*args.learning_rate, lam = args.lam, fid = args.fid)
 mynet.initialize(f)
 f=mynet.normalize(f)
 n_it = 200
