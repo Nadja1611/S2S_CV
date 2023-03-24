@@ -542,13 +542,6 @@ class Denseg_S2S:
         self.tv.append(total.cpu())
         energy = fidelity +self.lam* total
         self.en.append(energy.cpu())
-      #  plt.plot(np.array(self.tv), label = "TV")
-        if self.iteration %1000 == 499:  
-            plt.plot(np.array(self.en[:]), label = "energy")
-            plt.plot(np.array(self.fid[:]), label = "fidelity")
-          #  plt.plot(self.lam*np.array(self.tv[498:]))
-            plt.legend()
-            plt.show()
         self.iteration += 1
 
 
@@ -590,7 +583,7 @@ class Denseg_S2S:
 
 
                # loss = torch.sum((output-y)*(output-y)*(1-mask))/torch.sum(1-mask) +0* fidelity_term(output, self.x_tilde.float())              
-            loss = torch.sum(torch.abs(output-y)*(1-mask))/torch.sum(1-mask) + 0.1*(torch.mean(Fid1( self.x.float(), output)+Fid2(self.x.float(),output))   )      
+            loss = torch.sum(torch.abs(output-y)*(1-mask))/torch.sum(1-mask) + self.fid*(torch.mean(Fid1( self.x.float(), output)+Fid2(self.x.float(),output))   )      
 
             self.optimizer.zero_grad()
             loss.backward()
@@ -613,8 +606,8 @@ class Denseg_S2S:
                     with torch.no_grad():
                         output_test = self.DenoisNet(img_input_tensor_val,mask_val)
                         sum_preds[:,:,:] += output_test.detach().cpu().numpy()[0]
-                      #  loss_val = torch.sum((output_test - y_val)*(output_test-y_val)*(1-mask_val))/torch.sum(1-mask_val)
-                        loss_val = torch.sum(torch.abs(output_test - y_val)*(1-mask_val))/torch.sum(1-mask_val)
+                      #  loss_val = torch.sum((output_test - y_val)*(output_test-y_val)*(1-mask_val))/torch.sum(1-mask_val) + self.fid*(torch.mean(Fid1( self.x.float(), output_test)+Fid2(self.x.float(),output_test))   )  
+                        loss_val = torch.sum(torch.abs(output_test - y_val)*(1-mask_val))/torch.sum(1-mask_val) + self.fid*(torch.mean(Fid1( self.x.float(), output_test)+Fid2(self.x.float(),output_test))   )  
 
                         loss_val_G += loss_val.item()
                 val_loss_list.append(loss_val_G)
