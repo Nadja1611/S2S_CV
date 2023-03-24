@@ -57,21 +57,18 @@ module load cuda/11.4
 
 source activate pytorch
 
-for pat in {1..3800};
+exper=Lambda
+meth=joint
+data=DSB2018_n10
+
+for pat in {1..30};
 do 
-    python /home/ng529/rds/hpc-work/code/S2S_CV/S2S_CV/run_S2S.py --method joint --patient $pat --GPU 0 --experiment /Lambda --lam 0.00005 &
-    python /home/ng529/rds/hpc-work/code/S2S_CV/S2S_CV/run_S2S.py --method joint --patient $pat --GPU 0 --experiment /Lambda --lam 0.0001 
-    python /home/ng529/rds/hpc-work/code/S2S_CV/S2S_CV/run_S2S.py --method joint --patient $pat --GPU 0 --experiment /Lambda --lam 0.0002 &
-    python /home/ng529/rds/hpc-work/code/S2S_CV/S2S_CV/run_S2S.py --method joint --patient $pat --GPU 0 --experiment /Lambda --lam 0.0003  
-    python /home/ng529/rds/hpc-work/code/S2S_CV/S2S_CV/run_S2S.py --method joint --patient $pat --GPU 0 --experiment /Lambda --lam 0.0004 &
-    python /home/ng529/rds/hpc-work/code/S2S_CV/S2S_CV/run_S2S.py --method joint --patient $pat --GPU 0 --experiment /Lambda --lam 0.0005  
-    python /home/ng529/rds/hpc-work/code/S2S_CV/S2S_CV/run_S2S.py --method joint --patient $pat --GPU 0 --experiment /Lambda --lam 0.0006 &
-    python /home/ng529/rds/hpc-work/code/S2S_CV/S2S_CV/run_S2S.py --method joint --patient $pat --GPU 0 --experiment /Lambda --lam 0.00075 
-    python /home/ng529/rds/hpc-work/code/S2S_CV/S2S_CV/run_S2S.py --method joint --patient $pat --GPU 0 --experiment /Lambda --lam 0.001 &
-    python /home/ng529/rds/hpc-work/code/S2S_CV/S2S_CV/run_S2S.py --method joint --patient $pat --GPU 0 --experiment /Lambda --lam 0.00125 
-    python /home/ng529/rds/hpc-work/code/S2S_CV/S2S_CV/run_S2S.py --method joint --patient $pat --GPU 0 --experiment /Lambda --lam 0.0015 &
-    python /home/ng529/rds/hpc-work/code/S2S_CV/S2S_CV/run_S2S.py --method joint --patient $pat --GPU 0 --experiment /Lambda --lam 0.00175 
-    python /home/ng529/rds/hpc-work/code/S2S_CV/S2S_CV/run_S2S.py --method joint --patient $pat --GPU 0 --experiment /Lambda --lam 0.002 &
-    python /home/ng529/rds/hpc-work/code/S2S_CV/S2S_CV/run_S2S.py --method joint --patient $pat --GPU 0 --experiment /Lambda --lam 0.0025
-    python /home/ng529/rds/hpc-work/code/S2S_CV/S2S_CV/run_S2S.py --method joint --patient $pat --GPU 0 --experiment /Lambda --lam 0.003 
+    python /home/fs71765/ngruber/joint_denoising_segmentation/run_S2S.py --output_directory /gpfs/data/fs71765/ngruber/outputs_S2S_new --method $meth --patient $pat --GPU 0 --experiment $exper --lam 0.005 --dataset $data
+    python /home/fs71765/ngruber/joint_denoising_segmentation/run_S2S.py --output_directory /gpfs/data/fs71765/ngruber/outputs_S2S_new --method $meth --patient $pat --GPU 0 --experiment $exper --lam 0.01  --dataset $data
+    python /home/fs71765/ngruber/joint_denoising_segmentation/run_S2S.py --output_directory /gpfs/data/fs71765/ngruber/outputs_S2S_new --method $meth --patient $pat --GPU 0 --experiment $exper --lam 0.015 --dataset $data
+    python /home/fs71765/ngruber/joint_denoising_segmentation/run_S2S.py --output_directory /gpfs/data/fs71765/ngruber/outputs_S2S_new --method $meth --patient $pat --GPU 0 --experiment $exper --lam 0.02 --dataset $data
+    python /home/fs71765/ngruber/joint_denoising_segmentation/run_S2S.py --output_directory /gpfs/data/fs71765/ngruber/outputs_S2S_new --method $meth --patient $pat --GPU 0 --experiment $exper --lam 0.025 --dataset $data
+    python /home/fs71765/ngruber/joint_denoising_segmentation/run_S2S.py --output_directory /gpfs/data/fs71765/ngruber/outputs_S2S_new --method $meth --patient $pat --GPU 0 --experiment $exper --lam 0.03 --dataset $data
+    python /home/fs71765/ngruber/joint_denoising_segmentation/run_S2S.py --output_directory /gpfs/data/fs71765/ngruber/outputs_S2S_new --method $meth --patient $pat --GPU 0 --experiment $exper --lam 0.035 --dataset $data
+    python /home/fs71765/ngruber/joint_denoising_segmentation/run_S2S.py --output_directory /gpfs/data/fs71765/ngruber/outputs_S2S_new --method $meth --patient $pat --GPU 0 --experiment $exper --lam 0.04 --dataset $data
 done
